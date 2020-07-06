@@ -1,17 +1,42 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
+import React from "react";
+import "./index.css";
+import ReactDom from "react-dom";
 
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
-);
+import quizService from "./service/quiz"
+import QuestionBank from "./components/QuestionBox";
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
+class Quiz extends React.Component{
+
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            questions: []
+        }
+    }
+
+    getQuestions() {
+        quizService().then(question => {
+        this.setState({
+            questions: question
+        })
+        })
+    }
+
+    componentDidMount() {
+        this.getQuestions();
+    }
+
+
+    render() {
+        return(
+            <div className='container'>
+                <div className='title'> Quizz app </div>
+                {this.state.questions.length > 0 && this.state.questions.map( ({question, answers, correct, questionID}) =>
+                    <QuestionBank question={question} options={answers} />)}
+            </div>
+        )
+    }
+}
+
+ReactDom.render(<Quiz/>, document.getElementById('root'))
