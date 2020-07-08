@@ -1,6 +1,32 @@
-import React, {useState} from "react";
+import React from "react";
 
-const QuestionBank = ({question, options}) => {
+//converting into class component
+class QuestionBox extends React.Component{
+
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            options: this.props.options
+        }
+    }
+
+    render() {
+        return(
+            <div className='questionBox'>
+                <div className='question'>
+                    {this.props.question}
+                </div>
+                {this.state.options.map((text,index) => <button key={index} className="answerBtn" onClick={()=>this.setState({options: [text]})}>
+                    {text}
+                </button> )}
+            </div>
+        )
+    }
+
+}
+
+/*const QuestionBank = ({question, options}) => {
 
     const [option, setOptions] = useState(options);
 
@@ -12,6 +38,6 @@ const QuestionBank = ({question, options}) => {
                 )}
         </div>
     )
-}
+}*/
 
-export default QuestionBank;
+export default QuestionBox;
