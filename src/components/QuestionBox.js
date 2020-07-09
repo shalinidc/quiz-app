@@ -1,16 +1,23 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 
 //converting into class component
-class QuestionBox extends React.Component{
+class QuestionBank extends React.Component{
 
     constructor(props) {
         super(props);
 
         this.state = {
-            options: this.props.options
+            options: props.options
         }
     }
 
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if(prevProps.options !== this.props.options){
+            this.setState({
+                options: this.props.options
+            })
+        }
+    }
 
     render() {
         return(
@@ -31,18 +38,22 @@ class QuestionBox extends React.Component{
 
 }
 
-/*const QuestionBank = ({question, options}) => {
+/*const QuestionBank = ({question, options, selected}) => {
 
     const [option, setOptions] = useState(options);
+
+    useEffect(() => { setOptions(options) }, [options]);
 
     return(
         <div className='questionBox'>
             <div className='question'> {question} </div>
                 {option.map((text,index) =>
-                <button key={index} className="answerBtn" onClick={() => setOptions([text])}> {text} </button>
+                <button key={index} className="answerBtn" onClick={() => {
+                setOptions([text])
+                selected(text)}}> {text} </button>
                 )}
         </div>
     )
 }*/
 
-export default QuestionBox;
+export default QuestionBank;
