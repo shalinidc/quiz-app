@@ -11,13 +11,18 @@ class QuestionBox extends React.Component{
         }
     }
 
+
     render() {
         return(
             <div className='questionBox'>
                 <div className='question'>
                     {this.props.question}
                 </div>
-                {this.state.options.map((text,index) => <button key={index} className="answerBtn" onClick={()=>this.setState({options: [text]})}>
+                {this.state.options.map((text,index) => <button key={index} className="answerBtn" onClick={
+                    ()=>{
+                        this.setState({options: [text]});
+                        this.props.selected(text);
+                    }}>
                     {text}
                 </button> )}
             </div>
